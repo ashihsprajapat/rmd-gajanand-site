@@ -1,7 +1,5 @@
-import { and, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { getDb } from "@/db";
-import { projects } from "@/db/schema";
+import { getProjectsCollection } from "@/db/mongodb";
 import { getSessionUser } from "@/lib/auth";
 import { corsPreflight, withCors } from "@/lib/cors";
 import { parseProjectInput } from "@/lib/project-input";
@@ -12,10 +10,7 @@ const response = (request: Request, body: unknown, status = 200) => withCors(req
 export function OPTIONS(request: Request) { return corsPreflight(request); }
 
 async function projectForUser(id: string, user: NonNullable<Awaited<ReturnType<typeof getSessionUser>>>) {
-  const db = getDb();
-  const filter = user.role === "admin" ? eq(projects.id, id) : and(eq(projects.id, id), eq(projects.ownerId, user.id));
-  const [project] = await db.select().from(projects).where(filter).limit(1);
-  return project;
+  return (await getProjectsCollection()).findOne(user.role === "admin" ? { id } : { id, ownerId: user.id });
 }
 
 export async function GET(request: Request, context: RouteContext) {
@@ -34,7 +29,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   try {
     const input = parseProjectInput(await request.json());
     const updatedAt = new Date();
-    await getDb().update(projects).set({ ...input, updatedAt }).where(eq(projects.id, id));
+    await (await getProjectsCollection()).updateOne({ id }, { $set: { ...input, updatedAt } });
     return response(request, { project: { ...existing, ...input, updatedAt } });
   } catch (error) {
     return response(request, { error: error instanceof Error ? error.message : "Unable to update project." }, 400);

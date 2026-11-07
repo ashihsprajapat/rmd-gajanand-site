@@ -1,9 +1,7 @@
 import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { createSessionToken, AUTH_COOKIE } from "@/lib/auth";
-import { getDb } from "@/db";
-import { users } from "@/db/schema";
+import { getUsersCollection } from "@/db/mongodb";
 import { corsPreflight, withCors } from "@/lib/cors";
 
 export const runtime = "edge";
@@ -15,7 +13,7 @@ export async function POST(request: Request) {
     const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
     const password = typeof body.password === "string" ? body.password : "";
     if (!email || !password) return withCors(request, NextResponse.json({ error: "Enter your email and password." }, { status: 400 }));
-    const [user] = await getDb().select().from(users).where(eq(users.email, email)).limit(1);
+    const user = await (await getUsersCollection()).findOne({ email });
     if (!user || !(await bcrypt.compare(password, user.passwordHash))) return withCors(request, NextResponse.json({ error: "Incorrect email or password." }, { status: 401 }));
     const publicUser = { id: user.id, name: user.name, email: user.email, role: user.role };
     const response = NextResponse.json({ user: publicUser });

@@ -4,5 +4,7 @@ declare namespace Cloudflare {
     BUCKET?: R2Bucket;
     JWT_SECRET?: string;
     CORS_ORIGIN?: string;
+    MONGODB_URI?: string;
+    MONGODB_DB_NAME?: string;
   }
 }
