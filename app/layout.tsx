@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import SiteShell from "@/components/site-shell";
+import SiteShell from "@/components/layout/site-shell";
 
 export const metadata: Metadata = {
   title: "RMD Gajanand — Built to stand",

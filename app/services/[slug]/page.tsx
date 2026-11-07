@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight, ArrowLeft, Droplets, House } from "lucide-react";
 import { services } from "@/lib/site-content";
-import { PageIntro, CheckList, Steps, CtaBand } from "@/components/site-ui";
+import { PageIntro, CheckList, Steps, CtaBand } from "@/components/shared/site-ui";
 export function generateStaticParams() { return services.map(({ slug }) => ({ slug })); }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params; const service = services.find(item => item.slug === slug);

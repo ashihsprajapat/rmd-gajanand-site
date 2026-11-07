@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { CheckList, PageIntro } from "@/components/site-ui";
-import EnquiryForm from "@/components/enquiry-form";
+import { CheckList, PageIntro } from "@/components/shared/site-ui";
+import EnquiryForm from "@/components/pages/contact/enquiry-form";
 import { Layers3, ArrowRight } from "lucide-react";
 export const metadata: Metadata = { title: "Book a demo | RMD Gajanand" };
 export default function BookDemoPage() {

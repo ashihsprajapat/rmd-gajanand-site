@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Check, Layers3 } from "lucide-react";
-import { BoundaryAnimation, CtaBand, ServiceCards, Steps } from "@/components/site-ui";
+import { BoundaryAnimation, CtaBand, ServiceCards, Steps } from "@/components/shared/site-ui";
 
 export default function Home() {
   return <main id="main-content">
