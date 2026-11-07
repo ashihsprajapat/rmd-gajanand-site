@@ -8,6 +8,13 @@
       "when": 1794022249172,
       "tag": "0000_left_payback",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1794024328023,
+      "tag": "0001_bored_hannibal_king",
+      "breakpoints": true
     }
   ]
 }

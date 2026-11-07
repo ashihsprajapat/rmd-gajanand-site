@@ -19,7 +19,7 @@ export function withCors(request: Request, response: NextResponse) {
   if (origin) {
     response.headers.set("Access-Control-Allow-Origin", origin);
     response.headers.set("Access-Control-Allow-Credentials", "true");
-    response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    response.headers.set("Access-Control-Allow-Methods", "GET, POST, PATCH, OPTIONS");
     response.headers.set("Access-Control-Allow-Headers", "Content-Type");
     response.headers.set("Vary", "Origin");
   }

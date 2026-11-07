@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     if (!email || !password) return withCors(request, NextResponse.json({ error: "Enter your email and password." }, { status: 400 }));
     const [user] = await getDb().select().from(users).where(eq(users.email, email)).limit(1);
     if (!user || !(await bcrypt.compare(password, user.passwordHash))) return withCors(request, NextResponse.json({ error: "Incorrect email or password." }, { status: 401 }));
-    const publicUser = { id: user.id, name: user.name, email: user.email };
+    const publicUser = { id: user.id, name: user.name, email: user.email, role: user.role };
     const response = NextResponse.json({ user: publicUser });
     response.cookies.set(AUTH_COOKIE, await createSessionToken(publicUser), { httpOnly: true, sameSite: "lax", secure: new URL(request.url).protocol === "https:", path: "/", maxAge: 604800 });
     return withCors(request, response);

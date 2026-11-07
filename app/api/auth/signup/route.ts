@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     const db = getDb();
     const [existing] = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1);
     if (existing) return fail(request, "An account with that email already exists.", 409);
-    const user = { id: crypto.randomUUID(), name, email };
+    const user = { id: crypto.randomUUID(), name, email, role: "customer" as const };
     await db.insert(users).values({ ...user, passwordHash: await bcrypt.hash(password, 12), createdAt: new Date() });
     const response = NextResponse.json({ user }, { status: 201 });
     response.cookies.set(AUTH_COOKIE, await createSessionToken(user), { httpOnly: true, sameSite: "lax", secure: new URL(request.url).protocol === "https:", path: "/", maxAge: 604800 });
