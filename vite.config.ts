@@ -44,6 +44,18 @@ export default defineConfig(async ({ command }) => {
   const { cloudflare } = await import("@cloudflare/vite-plugin");
 
   return {
+    // The MongoDB driver is CommonJS. Bundle it for the Worker so Rolldown does
+    // not leave a runtime `require("punycode/")` call in the ESM Worker output.
+    ssr: {
+      noExternal: ["mongodb", "bson", "mongodb-connection-string-url", "whatwg-url", "tr46", "punycode"],
+    },
+    resolve: {
+      alias: {
+        // tr46 (a MongoDB dependency) imports `punycode/`; Vite 8 otherwise
+        // leaves it as a CommonJS runtime require in the Worker.
+        "punycode/": "punycode",
+      },
+    },
     server: {
       ...(managedLinux
         ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] }

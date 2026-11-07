@@ -28,9 +28,9 @@ Images are served from `public/images`, independently of build output.
 Navigation, mobile menu, active links, gallery filters, form validation, local draft save/restore/clear, password visibility, animations and 404 pages work locally.
 Animations respect the reduced-motion setting.
 
-Email/password signup and login use D1, bcrypt password hashes and a seven-day HTTP-only session cookie. New accounts are `customer` accounts; promote trusted users to `admin` directly in the database. The protected `/api/projects` endpoints enforce project ownership for customers and allow admins to read and manage every project. Project records store location, dimensions, progress, patti/pillar quantities and photo/video URLs.
+Email/password signup and login use MongoDB Atlas (`remdDB`), bcrypt password hashes and a seven-day HTTP-only session cookie. New accounts are `customer` accounts; promote trusted users to `admin` directly in the `users` collection. The protected `/api/projects` endpoints enforce project ownership for customers and allow admins to read and manage every project. Project records store location, dimensions, progress, patti/pillar quantities and photo/video URLs in the `projects` collection.
 
-This site runs on Cloudflare Workers, which cannot make the raw TCP connection required by a `mongodb+srv` URI. The configured MongoDB URI therefore cannot be used by the deployed Worker without an HTTPS database gateway or a non-Worker API service. D1 is used for the deployable implementation.
+The Cloudflare Worker connects with the official MongoDB driver. Configure `MONGODB_URI` as a secret in the hosted Site environment before deployment; never expose it to the browser.
 
 Google OAuth, Cloudinary upload handling and an admin management interface are not connected.
 Forms do not send enquiries or applications. They save drafts only in this browser and explain that on the page.
