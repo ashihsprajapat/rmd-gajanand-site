@@ -1,0 +1,8 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowRight, LockKeyhole, PackageCheck, Wallet, Layers3 } from "lucide-react";
+import { PageIntro } from "@/components/site-ui";
+export const metadata: Metadata = { title: "Track your work | RMD Gajanand" };
+export default function OrdersPage() {
+  return <main id="main-content"><PageIntro label="Track your work" title="Your project." accent="A clearer picture." description="A dedicated place for members to follow construction progress, installed materials and payment updates."/><section className="section section-after-intro"><div className="order-welcome" data-reveal><span className="round-icon"><LockKeyhole size={28}/></span><h2>Your work,<br/><em>in your hands.</em></h2><p>Personal orders will be available after secure member access is connected. Explore a sample to see how project tracking will work.</p><div className="hero-actions"><Link href="/orders/sample" className="button">Explore sample tracker <ArrowRight size={17}/></Link><Link href="/login" className="text-link">Member sign in <ArrowRight size={15}/></Link></div></div><div className="values-grid tracking-features">{[[PackageCheck,"Installation progress","See which stage your project has reached."],[Layers3,"Panels & poles","Follow the patti and pole quantities installed."],[Wallet,"Payment overview","Review the agreed value, paid amount and remaining balance."]].map(([Icon,title,text])=>{const ItemIcon=Icon as typeof Layers3;return <article key={String(title)}><ItemIcon size={25}/><h3>{String(title)}</h3><p>{String(text)}</p></article>;})}</div></section></main>;
+}
