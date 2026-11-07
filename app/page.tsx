@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Check, Layers3 } from "lucide-react";
 import { BoundaryAnimation, CtaBand, ServiceCards, Steps } from "@/components/shared/site-ui";
+import { styles } from "./styles";
 
 export default function Home() {
-  return <main id="main-content">
+  return <main id="main-content" className={styles.main}>
     <section className="home-hero">
       <div className="hero-copy"><p className="eyebrow"><span/>PRECAST CONCRETE. PERSONAL COMMITMENT.</p><h1>Good boundaries.<br/>Better <em>beginnings.</em></h1><p className="hero-description">From the edge of your land to the room you call your own. We build boundary walls and everyday spaces with care.</p><div className="hero-actions"><Link href="/book-demo" className="button">Let’s discuss your project <ArrowUpRight size={18}/></Link><Link href="/projects" className="text-link">Explore our work <ArrowRight size={16}/></Link></div><div className="hero-assurance"><span><Check size={14}/>Made for your site</span><span><Check size={14}/>Clear, practical construction</span></div></div>
       <div className="hero-image"><img src="/images/boundary-modern.webp" alt="Decorative precast concrete boundary around a residential property" fetchPriority="high"/><div className="hero-image-shade"/><div className="hero-image-label"><span className="status-dot"/>OUR WORK, OUT IN THE WORLD</div><div className="hero-image-caption"><span>Strong by design.<br/><em>Considered in every detail.</em></span><Link href="/projects/residential-boundary" aria-label="Explore residential boundary reference"><ArrowUpRight size={25}/></Link></div><span className="vertical-caption">RMD GAJANAND / CONSTRUCTION</span></div>
