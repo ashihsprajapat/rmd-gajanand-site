@@ -1,27 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type ReactNode } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
-
-export function Logo() {
-  return <Link className="brand" href="/" aria-label="RMD Gajanand home">
-    <svg className="brand-symbol" viewBox="0 0 44 44" fill="none" aria-hidden="true"><rect width="44" height="44" rx="10" fill="currentColor"/><path d="M10 31V17l12-7 12 7v14M17 31V21h10v10M10 26h7m10 0h7M10 21h7m10 0h7" stroke="#f7f5ed" strokeWidth="2.2" strokeLinejoin="round"/><path d="M8 33h28" stroke="#ed8b5f" strokeWidth="2.2"/></svg>
-    <span>RMD <b>Gajanand</b><small>BUILT TO STAND.</small></span>
-  </Link>;
-}
-
-const navigation = [
-  ["/services", "Our solutions"], ["/projects", "Our work"],
-  ["/success-stories", "Success stories"], ["/about", "About us"],
-];
+import { useEffect, type ReactNode } from "react";
+import Navbar from "./navbar";
+import Footer from "./footer";
 
 export default function SiteShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
   useEffect(() => {
     const elements = document.querySelectorAll<HTMLElement>("[data-reveal]");
     if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -42,22 +27,8 @@ export default function SiteShell({ children }: { children: ReactNode }) {
   }, [pathname]);
 
   return <>
-    <a className="skip-link" href="#main-content">Skip to content</a>
-    <div className="topline"><span>Strong boundaries. Thoughtful spaces.</span><Link href="/careers">Build your career with us <ArrowUpRight size={12}/></Link></div>
-    <header className="site-header">
-      <Logo/>
-      <nav id="site-navigation" className={menuOpen ? "site-nav open" : "site-nav"} aria-label="Main navigation">
-        {navigation.map(([href, label]) => <Link key={href} href={href} className={pathname.startsWith(href) ? "active" : ""} aria-current={pathname.startsWith(href) ? "page" : undefined}>{label}</Link>)}
-        <Link className="mobile-only" href="/team">Our team</Link>
-        <Link className="mobile-only" href="/orders">Track your work</Link>
-      </nav>
-      <div className="header-actions"><Link className="login-link" href="/login">Member login <ArrowUpRight size={14}/></Link><Link href="/book-demo" className="button button-small">Book a demo <ArrowUpRight size={15}/></Link></div>
-      <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-controls="site-navigation" aria-label={menuOpen ? "Close navigation" : "Open navigation"}>{menuOpen ? <X/> : <Menu/>}</button>
-    </header>
+    <Navbar/>
     <div className="route-enter" key={pathname}>{children}</div>
-    <footer className="site-footer">
-      <div className="footer-top"><div><Logo/><p>Concrete solutions.<br/>A personal commitment.</p></div><div><p className="footer-label">EXPLORE</p><Link href="/services">Our solutions</Link><Link href="/projects">Our work</Link><Link href="/success-stories">Success stories</Link></div><div><p className="footer-label">THE COMPANY</p><Link href="/about">About us</Link><Link href="/team">Our team</Link><Link href="/careers">Careers</Link></div><div><p className="footer-label">LET’S TALK</p><Link href="/book-demo">Book a demo <ArrowUpRight size={14}/></Link><Link href="/orders">Track your work</Link><Link href="/login">Member account</Link></div></div>
-      <div className="footer-bottom"><span>© 2026 RMD Gajanand. Built to stand.</span><div><Link href="/terms">Terms of use</Link><Link href="/privacy">Privacy policy</Link></div><span className="footer-signature">MADE WITH CARE. BUILT FOR LIFE.</span></div>
-    </footer>
+    <Footer/>
   </>;
 }

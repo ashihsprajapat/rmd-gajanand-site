@@ -28,6 +28,10 @@ Images are served from `public/images`, independently of build output.
 Navigation, mobile menu, active links, gallery filters, form validation, local draft save/restore/clear, password visibility, animations and 404 pages work locally.
 Animations respect the reduced-motion setting.
 
-Google OAuth, email/password authentication, JWT roles, MongoDB Atlas, Cloudinary and admin CRUD are not connected.
+Email/password signup and login use MongoDB Atlas (`remdDB`), bcrypt password hashes and a seven-day HTTP-only session cookie. New accounts are `customer` accounts; promote trusted users to `admin` directly in the `users` collection. The protected `/api/projects` endpoints enforce project ownership for customers and allow admins to read and manage every project. Project records store location, dimensions, progress, patti/pillar quantities and photo/video URLs in the `projects` collection.
+
+The Cloudflare Worker connects with the official MongoDB driver. Configure `MONGODB_URI` as a secret in the hosted Site environment before deployment; never expose it to the browser.
+
+Google OAuth, Cloudinary upload handling and an admin management interface are not connected.
 Forms do not send enquiries or applications. They save drafts only in this browser and explain that on the page.
-Account forms do not save or transmit passwords. Sample order data is illustrative.
+Sample order data is illustrative.
